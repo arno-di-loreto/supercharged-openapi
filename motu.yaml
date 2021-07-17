@@ -4,4 +4,30 @@ info:
   title: Masters of the Universe
   version: "1.0"
 
-paths: {}
+servers:
+  - description: Mock
+    url: http://localhost:3100
+
+paths:
+  /characters:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    birthDate:
+                      type: string
+                    age:
+                      type: integer
+                    side:
+                      type: string
