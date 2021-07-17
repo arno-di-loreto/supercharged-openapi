@@ -84,4 +84,6 @@ paths:
                     type: string
                     enum:
                       - hero
-                      - vilain    
+                      - vilain
+                  homePlanet:
+                    type: string    
