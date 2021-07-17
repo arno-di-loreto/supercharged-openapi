@@ -21,31 +21,7 @@ paths:
                 minItems: 0
                 maxItems: 3
                 items:
-                  type: object
-                  required:
-                    - id
-                    - name
-                  properties:
-                    id:
-                      type: string
-                      minLength: 3
-                      pattern: ^[0-9][a-z]*$
-                    name:
-                      type: string
-                      minLength: 1
-                      maxLength: 50
-                    birthDate:
-                      type: string
-                      format: date
-                    age:
-                      type: integer
-                      minimum: 18
-                      maximum: 256
-                    side:
-                      type: string
-                      enum:
-                        - hero
-                        - vilain
+                  $ref: "#/components/schemas/Character"
   /characters/{characterId}:
     get:
       parameters:
@@ -60,30 +36,34 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                properties:
-                  id:
-                    type: string
-                    minLength: 3
-                    pattern: ^[0-9][a-z]*$
-                  name:
-                    type: string
-                    minLength: 1
-                    maxLength: 50
-                  birthDate:
-                    type: string
-                    format: date
-                  age:
-                    type: integer
-                    minimum: 18
-                    maximum: 256
-                  side:
-                    type: string
-                    enum:
-                      - hero
-                      - vilain
-                  homePlanet:
-                    type: string    
+                $ref: "#/components/schemas/Character"
+components:
+  schemas:
+    Character:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          minLength: 3
+          pattern: ^[0-9][a-z]*$
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        birthDate:
+          type: string
+          format: date
+        age:
+          type: integer
+          minimum: 18
+          maximum: 256
+        side:
+          type: string
+          enum:
+            - hero
+            - vilain
+        homePlanet:
+          type: string
