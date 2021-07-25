@@ -72,6 +72,14 @@
 			"\ttype: string"
 		]
 	},
+	"Sidekick Id":{
+		"scope": "yaml",
+		"prefix": "sideKickId",
+		"body": [
+			"sideKickId:",
+			"\t\\$ref: '#/components/schemas/CharacterId'"
+		]
+	},
 	"Components":{
 		"scope": "yaml",
 		"prefix": "components:",
@@ -140,12 +148,16 @@
 			"\tparameters:",
 			"\t\t- \\$ref: '#/components/parameters/CharacterId'",
 			"\tpost:",
+			"\t\ttags:",
+			"\t\t\t- Toys",
 			"\t\tsummary: Add character's toy",
 			"\t\tresponses:",
 			"\t\t\t'201':",
 			"\t\t\t\tdescription: Toy added",
 			"/toys:",
 			"\tget:",
+			"\t\ttags:",
+			"\t\t\t- Toys",
 			"\t\tsummary: Search toys",
 			"\t\tresponses:",
 			"\t\t\t'200':",
@@ -176,5 +188,114 @@
 			"      side: villain",
 			"      archEnemyId: qssdqsd"
 		]
+	},
+	"Character Summary": {
+		"scope": "yaml",
+		"prefix": "summary",
+		"body": [
+			"CharacterSummary:",
+			"\ttype: object",
+			"\trequired:",
+			"\t\t- name",
+			"\t\t- id",
+			"\tproperties:",
+			"\t\tid:",
+			"\t\t\t\\$ref: '#/components/schemas/CharacterId'",
+			"\t\tname:",
+			"\t\t\ttype: string",
+			"\t\t\tmaxLength: 36",
+			"\t\t\tminLength: 3"
+		]
+	},
+	"Paginated": {
+		"prefix": "Paginated",
+		"body": [
+			"CharactersPaginated:",
+			"  allOf:",
+			"    - \\$ref: '#/components/schemas/Paginated'",
+			"    - properties:",
+			"        items:",
+			"          type: array",
+			"          maxItems: 3",
+			"          items:",
+			"            \\$ref: '#/components/schemas/CharacterSummary'",
+			"Paginated:",
+			"  properties:",
+			"    pagination:",
+			"      required:",
+			"        - page",
+			"        - pageSize",
+			"      properties:",
+			"        page:",
+			"          type: integer",
+			"          minimum: 0",
+			"        pageSize:",
+			"          type: integer",
+			"          minimum: 0",
+			"          maximum: 50"
+		],
+		"description": "Paginated"
+	},
+	"Add a character": {
+		"prefix": "post",
+		"body": [
+			"post:",
+			"  summary: Add a character",
+			"  requestBody:",
+			"    content:",
+			"      application/json:",
+			"        schema:",
+			"          required:",
+			"            - name",
+			"          properties:",
+			"            name:",
+			"              type: string",
+			"              maxLength: 36",
+			"              minLength: 3",
+			"            sideKickId:",
+			"              \\$ref: '#/components/schemas/CharacterId'",
+			"            birthDate:",
+			"              type: string",
+			"              format: date",
+			"            age:",
+			"              type: integer",
+			"              minimum: 0",
+			"              maximum: 128",
+			"            side:",
+			"              type: string",
+			"              enum:",
+			"                - hero",
+			"                - villain",
+			"            archEnemyId:",
+			"              \\$ref: '#/components/schemas/CharacterId'",
+			"  responses:",
+			"    '200':",
+			"      description: OK",
+			"      content:",
+			"        application/json:",
+			"          schema:",
+			"            \\$ref: '#/components/schemas/Character'",
+			""
+		],
+		"description": "Add a character"
+	},
+	"Markdown": {
+		"prefix": "markdown",
+		"body": [
+			"With _markdown_",
+			"",
+			"# Section",
+			"",
+			"## Sub section",
+			"",
+			"# Images",
+			"",
+			"Regular image",
+			"![](https://placekitten.com/640/360)",
+			"",
+			"Embedded base64 image",
+			"<img alt=\"embedded image\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAf0lEQVQ4T2NkoBAwUqifAacBCgYJ/9ENf3BhAYZ6DAFsGvEZhGIAMZphhsFcg9WA++fng9UpGibCLUcXwzAA2XZiDACZDDIE7gJSnI/sDdoYgMsLyGFC0AswQ5CjEK8BIIXo4YDNJURFIzHJG2s6wOYKbIYhJ2nq5wVinI+sBgCmW0wRGtgp8QAAAABJRU5ErkJggg==\">"
+		],
+		"description": "Markdown"
 	}
 }
