@@ -15,16 +15,29 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 3
                 items:
                   type: object
+                  required:
+                    - id
+                    - name
                   properties:
                     id:
                       type: string
+                      pattern: ^[a-z]{3,}$
                     name:
                       type: string
+                      minLength: 3
+                      maxLength: 36
                     birthDate:
                       type: string
+                      format: date
                     age:
-                      type: number
-                    hero:
-                      type: boolean
+                      type: integer
+                      minimum: 0
+                      maximum: 128
+                    side:
+                      type: string
+                      enum:
+                        - hero
+                        - villain

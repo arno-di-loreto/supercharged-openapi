@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Next step",
+        "type": "shell",
+        "command": "steps/next.sh",
+        "presentation": {
+          "reveal": "never",
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Reload step",
+        "type": "shell",
+        "command": "steps/reload.sh",
+        "presentation": {
+          "reveal": "never",
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Reset step",
+        "type": "shell",
+        "command": "steps/reset.sh",
+        "presentation": {
+          "reveal": "never",
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+  

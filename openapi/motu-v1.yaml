@@ -25,6 +25,6 @@ paths:
                     birthDate:
                       type: string
                     age:
-                      type: number
-                    hero:
-                      type: boolean
+                      type: integer
+                    side:
+                      type: string

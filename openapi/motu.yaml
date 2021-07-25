@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+
+info:
+  title: Masters of the Universe
+  version: "1.0"
+
+paths:
+  /characters:
+    get:
+      summary: Search characters
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 3
+                items:
+                  $ref: '#/components/schemas/Character'
+
+  /characters/{characterId}: # The character resource's path
+    get:
+      summary: Read a character
+      parameters:
+        - name: characterId
+          in: path
+          required: true
+          schema:
+            type:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+
+components:
+  schemas:
+    Character:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          pattern: ^[a-z]{3,}$
+        name:
+          type: string
+          minLength: 3
+          maxLength: 36
+        birthDate:
+          type: string
+          format: date
+        age:
+          type: integer
+          minimum: 0
+          maximum: 128
+        side:
+          type: string
+          enum:
+            - hero
+            - villain
+        archEnemyId:
+          type: string

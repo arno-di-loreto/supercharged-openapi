@@ -1,0 +1,8 @@
+{
+    "vscode_custom_css.imports": [
+        "file://${env:HOME}/.vscode/extensions/webrender.synthwave-x-fluoromachine-0.0.12/synthwave-x-fluoromachine.css"
+    ],
+    "workbench.colorTheme": "Synthwave x Fluoromachine",
+    "editor.fontFamily": "Monaco, 'Courier New', monospace",
+    "window.title": "Supercharged OpenAPI",
+}

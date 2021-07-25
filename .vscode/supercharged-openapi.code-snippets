@@ -1,0 +1,180 @@
+{
+	"Regex": {
+		"scope": "yaml",
+		"prefix": "regex",
+		"body": [
+			"^[a-z]{3,}$"
+		]
+	},
+	"Read an element": {
+		"scope": "yaml",
+		"prefix": "Read",
+		"body": [
+			"/$1s/{$1Id}: # The $1 resource's path",
+			"\tget:",
+			"\t\tsummary: Read a $1",
+			"\t\tparameters:",
+			"\t\t\t- name: $1Id",
+			"\t\t\t  in: path",
+			"\t\t\t  required: true",
+			"\t\t\t  schema:",
+			"\t\t\t  \ttype: $2",
+			"\t\tresponses:",
+			"\t\t\t'200':",
+			"\t\t\t\tdescription: OK",
+			"\t\t\t\tcontent:",
+			"\t\t\t\t\tapplication/json:",
+			"\t\t\t\t\t\tschema:",
+			"\t\t\t\t\t\t\ttype: object"
+		]
+	},
+	"Delete an element": {
+		"scope": "yaml",
+		"prefix": "delete",
+		"body":[
+			"delete:",
+			"\tsummary: Delete a $1",
+			"\tparameters:",
+			"\t\t- name: $1Id",
+			"\t\t  in: path",
+			"\t\t  required: true",
+			"\t\t  schema:",
+			"\t\t  \ttype: $2",
+			"\tresponses:",
+			"\t\t'204':",
+			"\t\t\tdescription: No Content"
+		]
+	},
+	"Search in a list": {
+		"scope": "yaml",
+		"prefix": "Search",
+		"body": [
+			"# Search $1",
+			"/$1:",
+			"\tget:",
+			"\t\tsummary: Search $1",
+			"\t\tresponses:",
+			"\t\t\t'200':",
+			"\t\t\t\tdescription: OK",
+			"\t\t\t\tcontent:",
+			"\t\t\t\t\tapplication/json:",
+			"\t\t\t\t\t\tschema:",
+			"\t\t\t\t\t\t\ttype: array",
+			"\t\t\t\t\t\t\titems:",
+			"\t\t\t\t\t\t\t\ttype: object",
+		]
+	},
+	"Archenemy":{
+		"scope": "yaml",
+		"prefix": "archEnemyId",
+		"body": [
+			"archEnemyId:",
+			"\ttype: string"
+		]
+	},
+	"Components":{
+		"scope": "yaml",
+		"prefix": "components:",
+		"body": [
+			"components:",
+			"\tschemas:",
+			"\t\tCharacter:"
+		  
+		]
+	},
+	"Errors": {
+		"scope": "yaml",
+		"prefix": "Errors",
+		"body": [			
+			"Errors:",
+			"\trequired:",
+			"\t\t- errors",
+			"\tproperties:",
+			"\t\terrors:",
+			"\t\t\ttype: array",
+			"\t\t\tminItems: 1",
+			"\t\t\titems:",
+			"\t\t\t\ttype: object",
+			"\t\t\t\trequired:",
+			"\t\t\t\t\t- code",
+			"\t\t\t\t\t- message",
+			"\t\t\t\tproperties:",
+			"\t\t\t\t\tcode:",
+			"\t\t\t\t\t\ttype: string",
+			"\t\t\t\t\tmessage:",
+			"\t\t\t\t\t\ttype: string",
+			"\t\t\t\t\tlocation:",
+			"\t\t\t\t\t\ttype: string",
+		]
+	},
+	"Request bodies": {
+		"scope": "yaml",
+		"prefix": "requestBodies",
+		"body": [
+			"requestBodies:",
+			"\tCharacter:",
+			"\t\tcontent:",
+			"\t\t\tapplication/json:",
+			"\t\t\t\tschema:",
+			"\t\t\t\t\t\\$ref: '#/components/schemas/Character'"
+		]
+	},
+	"Replace a character": {
+		"scope": "yaml",
+		"prefix": "replace a character",
+		"body":[
+			"put:",
+			"\tsummary: Replace a character",
+			"\trequestBody:",
+			"\t\t\\$ref: '#/components/requestBodies/Character'",
+			"\tresponses:",
+			"\t\t'204':",
+			"\t\t\tdescription: No Content"
+		]
+	},
+	"Toys": {
+		"scope": "yaml",
+		"prefix": "toys",
+		"body": [
+			"/characters/{characterId}/toys:",
+			"\tparameters:",
+			"\t\t- \\$ref: '#/components/parameters/CharacterId'",
+			"\tpost:",
+			"\t\tsummary: Add character's toy",
+			"\t\tresponses:",
+			"\t\t\t'201':",
+			"\t\t\t\tdescription: Toy added",
+			"/toys:",
+			"\tget:",
+			"\t\tsummary: Search toys",
+			"\t\tresponses:",
+			"\t\t\t'200':",
+			"\t\t\t\tdescription: Found toys"
+		]
+	},
+	"Embed image":{
+		"scope": "yaml",
+		"prefix": "<img",
+		"body": "<img alt=\"embedded image\" src=\"data:image/png;base64,$1\">"
+	},
+	"Examples": {
+		"prefix": "examples",
+		"body": [
+			"examples:",
+			"  Hero:",
+			"    summary: A hero sample",
+			"    value:",
+			"      id: qssdqsd",
+			"      name: He-Man",
+			"      side: hero",
+			"      archEnemyId: azeae",
+			"  Villain:",
+			"    summary: A villain sample",
+			"    value:",
+			"      id: azeae",
+			"      name: Skeletor",
+			"      side: villain",
+			"      archEnemyId: qssdqsd"
+		]
+	}
+}
