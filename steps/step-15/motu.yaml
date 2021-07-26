@@ -3,12 +3,58 @@ openapi: "3.0.0"
 info:
   title: Masters of the Universe
   version: "1.0"
-  description: Everything about the Masters of the Universe characters and toys
+  description: |
+    # Don't forget
+
+    - Put all details on each property
+    - Components, $ref and allOf
+    - Tags
+    - Meaningful and rich descriptions
+    - Examples
+
+    # Tools
+
+    ## OpenAPI Specification documentation:
+    - 🔗 OpenAPI Map: (https://openapi-map.apihandyman.io/)
+    - 🔗 OpenAPI Spec Github repo: (https://github.com/OAI/OpenAPI-Specification)
+    ## Tools (I use):
+    - 🔗 OpenAPI (42 Crunch) VS Code Extension (https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+    - 🔗 Stoplight Studio GUI (https://stoplight.io/studio/)
+    - 🔗 Stoplight Spectral linter (https://github.com/stoplightio/spectral)
+    - 🔗 Stoplight Prism Mock generator (https://github.com/stoplightio/prism/)
+    - 🔗 Redoc CLI (https://github.com/Redocly/redoc/blob/master/cli/README.md)
+    - 🔗 Swagger Editor (https://editor.swagger.io/)
+
+    # API Doc
+    Everything about the Masters of the Universe characters and toys
+
+    A longer multi-lines description!
+
+    With _markdown_
+    
+    # Section
+    
+    ## Sub section
+    
+    # Images
+    
+    Regular image
+    ![](https://placekitten.com/640/360)
+    
+    Embedded base64 image
+    <img alt="embedded image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAf0lEQVQ4T2NkoBAwUqifAacBCgYJ/9ENf3BhAYZ6DAFsGvEZhGIAMZphhsFcg9WA++fng9UpGibCLUcXwzAA2XZiDACZDDIE7gJSnI/sDdoYgMsLyGFC0AswQ5CjEK8BIIXo4YDNJURFIzHJG2s6wOYKbIYhJ2nq5wVinI+sBgCmW0wRGtgp8QAAAABJRU5ErkJggg==">
+
+tags:
+  - name: Toys
+    description: All about Masters of the Universe Franchise Toys
+  - name: Characters
+    description: All about Masters of the Universe Franchise Characters
 
 paths:
-  # TODO: Put all character related operations in a "Characters" group
   /characters:
     get:
+      tags:
+        - Characters
       summary: Search characters
       responses:
         "200":
@@ -20,6 +66,8 @@ paths:
         '401':
           $ref: '#/components/schemas/Errors'
     post:
+      tags:
+        - Characters
       summary: Add a character
       description: This is where you provide information about what the operation does or how to works if actually needed
       requestBody:
@@ -36,6 +84,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
+      tags:
+        - Characters
       summary: Read a character
       responses:
         "200":
@@ -44,9 +94,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+              examples:
+                Hero:
+                  $ref: '#/components/examples/Hero'
+                Villain:
+                  $ref: '#/components/examples/Villain'
         '401':
           $ref: '#/components/schemas/Errors'
     delete:
+      tags:
+        - Characters
       summary: Delete a character
       responses:
         '204':
@@ -54,15 +111,49 @@ paths:
         '401':
           $ref: '#/components/schemas/Errors'
     put:
+      tags:
+        - Characters
       summary: Replace a character
       requestBody:
         $ref: '#/components/requestBodies/Character'
       responses:
         '204':
           description: No Content
-  # TODO: Add toys related operations and make them appear BEFORE characters ones
+  /characters/{characterId}/toys:
+    parameters:
+      - $ref: '#/components/parameters/CharacterId'
+    post:
+      tags:
+        - Toys
+      summary: Add character's toy
+      responses:
+        '201':
+          description: Toy added
+  /toys:
+    get:
+      tags:
+        - Toys
+      summary: Search toys
+      responses:
+        '200':
+          description: Found toys
 
 components:
+  examples:
+    Hero:
+      summary: A hero sample
+      value:
+        id: qssdqsd
+        name: He-Man
+        side: hero
+        archEnemyId: azeae
+    Villain:
+      summary: A villain sample
+      value:
+        id: azeae
+        name: Skeletor
+        side: villain
+        archEnemyId: qssdqsd
   requestBodies:
     Character:
       content:
@@ -138,13 +229,19 @@ components:
         - name
       properties:
         id:
+          # description + $ref works only in 3.1
+          description: The character unique id
           $ref: '#/components/schemas/CharacterId'
         name:
           type: string
           minLength: 3
           maxLength: 36
+          example: Skeletor
         sideKickId:
-          type: string      
+          # How to add a description to a $ref before 3.1
+          allOf:
+            - description: The character unique id
+            - $ref: '#/components/schemas/CharacterId'      
     Character:
       allOf:
         - $ref: '#/components/schemas/CharacterSummary'

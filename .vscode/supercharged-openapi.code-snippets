@@ -327,5 +327,16 @@
 			"<img alt=\"embedded image\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAf0lEQVQ4T2NkoBAwUqifAacBCgYJ/9ENf3BhAYZ6DAFsGvEZhGIAMZphhsFcg9WA++fng9UpGibCLUcXwzAA2XZiDACZDDIE7gJSnI/sDdoYgMsLyGFC0AswQ5CjEK8BIIXo4YDNJURFIzHJG2s6wOYKbIYhJ2nq5wVinI+sBgCmW0wRGtgp8QAAAABJRU5ErkJggg==\">"
 		],
 		"description": "Markdown"
+	},
+	"tags": {
+		"prefix": "tags",
+		"body": [
+			"tags:",
+			"  - name: Toys",
+			"    description: All about Masters of the Universe Franchise Toys",
+			"  - name: Characters",
+			"    description: All about Masters of the Universe Franchise Characters"
+		],
+		"description": "tags"
 	}
 }

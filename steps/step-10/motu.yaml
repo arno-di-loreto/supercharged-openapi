@@ -14,14 +14,10 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                maxItems: 3
-                items:
-                  # TODO: Return a summarized Character with only id and name
-                  $ref: '#/components/schemas/Character'
+                $ref: '#/components/schemas/CharactersPaginated'
         '401':
           $ref: '#/components/schemas/Errors'
-
+    # TODO: Add "Add character" operation
   /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
@@ -60,6 +56,29 @@ components:
       schema:
         $ref: '#/components/schemas/CharacterId'
   schemas:
+    CharactersPaginated:
+      allOf:
+        - $ref: '#/components/schemas/Paginated'
+        - properties:
+            items:
+              type: array
+              maxItems: 3
+              items:
+                $ref: '#/components/schemas/CharacterSummary'
+    Paginated:
+      properties:
+        pagination:
+          required:
+            - page
+            - pageSize
+          properties:
+            page:
+              type: integer
+              minimum: 0
+            pageSize:
+              type: integer
+              minimum: 0
+              maximum: 50
     Errors:
       required:
         - errors
@@ -82,7 +101,7 @@ components:
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
-    Character:
+    CharacterSummary:
       type: object
       required:
         - id
@@ -94,18 +113,25 @@ components:
           type: string
           minLength: 3
           maxLength: 36
-        birthDate:
-          type: string
-          format: date
-        age:
-          type: integer
-          minimum: 0
-          maximum: 128
-        side:
-          type: string
-          enum:
-            - hero
-            - villain
-            - neutral
-        archEnemyId:
-          type: string
+        sideKickId:
+          type: string      
+    Character:
+      allOf:
+        - $ref: '#/components/schemas/CharacterSummary'
+        - type: object
+          properties:
+            birthDate:
+              type: string
+              format: date
+            age:
+              type: integer
+              minimum: 0
+              maximum: 128
+            side:
+              type: string
+              enum:
+                - hero
+                - villain
+                - neutral
+            archEnemyId:
+              type: string

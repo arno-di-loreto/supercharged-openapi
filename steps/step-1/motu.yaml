@@ -1,5 +1,30 @@
-# TODO: Set OpenAPI version
+openapi: '3.0.0'
 
-# TODO: Set API name and version
+info:
+  title: Masters of the Universe
+  version: '1.0'
 
-# TODO: Add "Search Characters operation"
+paths:
+  /characters:
+    get:
+      summary: Search characters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    birthDate:
+                      type: string
+                    age:
+                      type: integer
+                    side:
+                      type: string

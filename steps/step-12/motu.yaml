@@ -3,10 +3,19 @@ openapi: "3.0.0"
 info:
   title: Masters of the Universe
   version: "1.0"
+  description: Everything about the Masters of the Universe characters and toys
+
+tags:
+  - name: Toys
+    description: All about Masters of the Universe Franchise Toys
+  - name: Characters
+    description: All about Masters of the Universe Franchise Characters
 
 paths:
   /characters:
     get:
+      tags:
+        - Characters
       summary: Search characters
       responses:
         "200":
@@ -17,11 +26,27 @@ paths:
                 $ref: '#/components/schemas/CharactersPaginated'
         '401':
           $ref: '#/components/schemas/Errors'
-    # TODO: Add "Add character" operation
+    post:
+      tags:
+        - Characters
+      summary: Add a character
+      description: This is where you provide information about what the operation does or how to works if actually needed
+      requestBody:
+        $ref: '#/components/requestBodies/Character'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+    
   /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
+      tags:
+        - Characters
       summary: Read a character
       responses:
         "200":
@@ -30,17 +55,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+              # TODO: Add hero and villain example
         '401':
           $ref: '#/components/schemas/Errors'
     delete:
+      tags:
+        - Characters
       summary: Delete a character
       responses:
         '204':
-          description: No Content
+          description: Character has been deleted
         '401':
           $ref: '#/components/schemas/Errors'
+    put:
+      tags:
+        - Characters
+      summary: Replace a character
+      requestBody:
+        $ref: '#/components/requestBodies/Character'
+      responses:
+        '204':
+          description: No Content
+  /characters/{characterId}/toys:
+    parameters:
+      - $ref: '#/components/parameters/CharacterId'
+    post:
+      tags:
+        - Toys
+      summary: Add character's toy
+      responses:
+        '201':
+          description: Toy added
+  /toys:
+    get:
+      tags:
+        - Toys
+      summary: Search toys
+      responses:
+        '200':
+          description: Found toys
 
 components:
+  requestBodies:
+    Character:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Character'
   responses:
     Unauthorized:
       description: Unauthorized
@@ -98,9 +159,11 @@ components:
                 type: string
               location:
                 type: string
+                description: JSON path to the source of the error
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
+      readOnly: true
     CharacterSummary:
       type: object
       required:
@@ -113,6 +176,7 @@ components:
           type: string
           minLength: 3
           maxLength: 36
+          # TODO: Add a name example
         sideKickId:
           type: string      
     Character:
@@ -123,10 +187,12 @@ components:
             birthDate:
               type: string
               format: date
+              writeOnly: true
             age:
               type: integer
               minimum: 0
               maximum: 128
+              readOnly: true
             side:
               type: string
               enum:

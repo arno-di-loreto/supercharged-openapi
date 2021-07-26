@@ -13,18 +13,26 @@ paths:
           description: OK
           content:
             application/json:
+              # TODO: Fix not so accurate description!
               schema:
                 type: array
+                # TODO: 3 items max
                 items:
                   type: object
+                  # TODO: id and name always returned
                   properties:
                     id:
+                      # TODO: at least 3 lower cased a to z characters
                       type: string
                     name:
+                      # TODO: length between 3 and 36
                       type: string
                     birthDate:
+                      # TODO: Format 1984-07-14
                       type: string
                     age:
+                      # TODO: Value between 0 and 128 
                       type: integer
                     side:
+                      # TODO: possible values: hero, villain, neutral 
                       type: string

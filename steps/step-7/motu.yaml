@@ -20,14 +20,10 @@ paths:
                   $ref: '#/components/schemas/Character'
 
   /characters/{characterId}:
+    parameters:
+      - $ref: '#/components/parameters/CharacterId'
     get:
       summary: Read a character
-      parameters:
-        - name: characterId
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: OK
@@ -35,9 +31,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
-    # TODO: Add "Delete a character"
+    delete:
+      summary: Delete a character
+      responses:
+        '204':
+          description: No Content
 
 components:
+  parameters:
+    CharacterId:
+      name: characterId
+      in: path
+      required: true
+      schema:
+        # TODO: Fix that! That's more than just a string
+        type: string
   schemas:
     Character:
       type: object

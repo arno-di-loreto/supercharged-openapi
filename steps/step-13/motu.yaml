@@ -3,10 +3,20 @@ openapi: "3.0.0"
 info:
   title: Masters of the Universe
   version: "1.0"
+  # TODO: That description is too short and not eye catching
+  description: Everything about the Masters of the Universe characters and toys
+
+tags:
+  - name: Toys
+    description: All about Masters of the Universe Franchise Toys
+  - name: Characters
+    description: All about Masters of the Universe Franchise Characters
 
 paths:
   /characters:
     get:
+      tags:
+        - Characters
       summary: Search characters
       responses:
         "200":
@@ -18,12 +28,12 @@ paths:
         '401':
           $ref: '#/components/schemas/Errors'
     post:
+      tags:
+        - Characters
       summary: Add a character
+      description: This is where you provide information about what the operation does or how to works if actually needed
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Character'
+        $ref: '#/components/requestBodies/Character'
       responses:
         '201':
           description: Created
@@ -36,6 +46,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
+      tags:
+        - Characters
       summary: Read a character
       responses:
         "200":
@@ -44,18 +56,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+              examples:
+                Hero:
+                  $ref: '#/components/examples/Hero'
+                Villain:
+                  $ref: '#/components/examples/Villain'
         '401':
           $ref: '#/components/schemas/Errors'
     delete:
+      tags:
+        - Characters
       summary: Delete a character
       responses:
         '204':
-          description: No Content
+          description: Character has been deleted
         '401':
           $ref: '#/components/schemas/Errors'
-    # TODO: Add "Replace a character"
+    put:
+      tags:
+        - Characters
+      summary: Replace a character
+      requestBody:
+        $ref: '#/components/requestBodies/Character'
+      responses:
+        '204':
+          description: No Content
+  /characters/{characterId}/toys:
+    parameters:
+      - $ref: '#/components/parameters/CharacterId'
+    post:
+      tags:
+        - Toys
+      summary: Add character's toy
+      responses:
+        '201':
+          description: Toy added
+  /toys:
+    get:
+      tags:
+        - Toys
+      summary: Search toys
+      responses:
+        '200':
+          description: Found toys
 
 components:
+  examples:
+    Hero:
+      summary: A hero sample
+      value:
+        id: qssdqsd
+        name: He-Man
+        side: hero
+        archEnemyId: azeae
+    Villain:
+      summary: A villain sample
+      value:
+        id: azeae
+        name: Skeletor
+        side: villain
+        archEnemyId: qssdqsd
+  requestBodies:
+    Character:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Character'
   responses:
     Unauthorized:
       description: Unauthorized
@@ -113,6 +179,7 @@ components:
                 type: string
               location:
                 type: string
+                description: JSON path to the source of the error
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
@@ -124,12 +191,15 @@ components:
         - name
       properties:
         id:
+          # TODO: Add a description to id
           $ref: '#/components/schemas/CharacterId'
         name:
           type: string
           minLength: 3
           maxLength: 36
+          example: Skeletor
         sideKickId:
+          # TODO: sideKickId is an actual CharacterId! And add description
           type: string      
     Character:
       allOf:
