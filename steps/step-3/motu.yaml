@@ -1,0 +1,32 @@
+openapi: '3.0.0'
+
+info:
+  title: Masters of the Universe
+  version: '1.0'
+
+paths:
+  /characters:
+    get:
+      summary: Search characters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    birthDate:
+                      type: string
+                    age:
+                      # TODO: Not a float!
+                      type: number
+                    # TODO: non extensible boolean!
+                    hero:
+                      type: boolean

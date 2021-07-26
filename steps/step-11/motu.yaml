@@ -1,65 +1,48 @@
-openapi: '3.0.0'
+openapi: "3.0.0"
 
 info:
   title: Masters of the Universe
-  version: '1.0'
+  version: "1.0"
 
 paths:
   /characters:
     get:
       summary: Search characters
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
+                # TODO: Add standard pagination metadata
                 type: array
                 maxItems: 3
                 items:
                   $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
 
-  /characters/{characterId}: # The character resource's path
+  /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
       summary: Read a character
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     delete:
       summary: Delete a character
       responses:
         '204':
-          description: No content
+          description: No Content
         '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /characters/{characterId}/enemies:
-    parameters:
-      - $ref: '#/components/parameters/CharacterId'
-    get:
-      summary: Search character's enemies
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                maxItems: 3
-                items:
-                  $ref: '#/components/schemas/Character'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
 
 components:
   responses:
@@ -99,7 +82,7 @@ components:
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
-    Character:
+    CharacterSummary:
       type: object
       required:
         - id
@@ -111,17 +94,25 @@ components:
           type: string
           minLength: 3
           maxLength: 36
-        birthDate:
-          type: string
-          format: date
-        age:
-          type: integer
-          minimum: 0
-          maximum: 0
-        side:
-          type: string
-          enum:
-            - hero
-            - villain
-        archEnemyId:
-          $ref: '#/components/schemas/CharacterId'
+        sideKickId:
+          type: string      
+    Character:
+      allOf:
+        - $ref: '#/components/schemas/CharacterSummary'
+        - type: object
+          properties:
+            birthDate:
+              type: string
+              format: date
+            age:
+              type: integer
+              minimum: 0
+              maximum: 128
+            side:
+              type: string
+              enum:
+                - hero
+                - villain
+                - neutral
+            archEnemyId:
+              type: string

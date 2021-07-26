@@ -41,3 +41,5 @@ paths:
                       enum:
                         - hero
                         - villain
+                        - neutral
+  # TODO: Add "Read a character" operation

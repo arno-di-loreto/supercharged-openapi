@@ -1,0 +1,13 @@
+// Add these keybindings to your global VS code keybindings configuration
+[
+    {
+        "key": "ctrl+m",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Next step"
+    },
+    {
+        "key": "ctrl+alt+m",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Previous step"
+    }
+]

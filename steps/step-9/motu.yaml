@@ -18,16 +18,13 @@ paths:
                 maxItems: 3
                 items:
                   $ref: '#/components/schemas/Character'
+        # TODO: Add 401 response with errors list
 
-  /characters/{characterId}: # The character resource's path
+  /characters/{characterId}:
+    parameters:
+      - $ref: '#/components/parameters/CharacterId'
     get:
       summary: Read a character
-      parameters:
-        - name: characterId
-          in: path
-          required: true
-          schema:
-            type:
       responses:
         "200":
           description: OK
@@ -35,9 +32,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+        # TODO: Add 401 response with errors list
+    delete:
+      summary: Delete a character
+      responses:
+        '204':
+          description: No Content
+        # TODO: Add 401 response with errors list
 
 components:
+  parameters:
+    CharacterId:
+      name: characterId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/CharacterId'
   schemas:
+    CharacterId:
+      type: string
+      pattern: ^[a-z]{3,}$
     Character:
       type: object
       required:
@@ -45,8 +59,7 @@ components:
         - name
       properties:
         id:
-          type: string
-          pattern: ^[a-z]{3,}$
+          $ref: '#/components/schemas/CharacterId'
         name:
           type: string
           minLength: 3
@@ -63,5 +76,6 @@ components:
           enum:
             - hero
             - villain
+            - neutral
         archEnemyId:
           type: string

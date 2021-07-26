@@ -1,114 +1,65 @@
-openapi: '3.0.0'
+openapi: "3.0.0"
 
 info:
   title: Masters of the Universe
-  version: '1.0'
-  description: Description of the overall API goes here
-
-tags:
-  - name: Toys
-    description: Description of tag goes here
-  - name: Characters 
+  version: "1.0"
+  # TODO: Tell more about this API
 
 paths:
   /characters:
-    post:
-      tags:
-        - Characters
-      summary: Add a character
-      description: What does not fit in summary
-      requestBody:
-        $ref: '#/components/requestBodies/Character'
-      responses:
-        '201':
-          description: Character created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Character' 
     get:
-      tags:
-        - Characters
       summary: Search characters
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Characters'
+                $ref: '#/components/schemas/CharactersPaginated'
         '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /characters/{characterId}: # The character resource's path
+          $ref: '#/components/schemas/Errors'
+    post:
+      summary: Add a character
+      # TODO: Tell more about this operation
+      requestBody:
+        $ref: '#/components/requestBodies/Character'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+    
+  /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
-      tags:
-        - Characters
       summary: Read a character
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     delete:
-      tags:
-        - Characters
       summary: Delete a character
       responses:
         '204':
-          description: No content
+          description: No Content
+          # TODO: Change to a description that tells something interesting
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     put:
-      tags:
-        - Characters
       summary: Replace a character
       requestBody:
         $ref: '#/components/requestBodies/Character'
       responses:
         '204':
           description: No Content
-  /characters/{characterId}/enemies:
-    parameters:
-      - $ref: '#/components/parameters/CharacterId'
-    get:
-      tags:
-        - Characters
-      summary: Search character's enemies
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Characters'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /characters/{characterId}/toys:
-    parameters:
-      - $ref: '#/components/parameters/CharacterId'
-    post:
-      tags:
-        - Toys
-      summary: Add character's toy
-      responses:
-        '201':
-          description: Toy added
-  /toys:
-    get:
-      tags:
-        - Toys
-      summary: Search toys
-      responses:
-        '200':
-          description: Found toys
 
 components:
   requestBodies:
@@ -132,6 +83,15 @@ components:
       schema:
         $ref: '#/components/schemas/CharacterId'
   schemas:
+    CharactersPaginated:
+      allOf:
+        - $ref: '#/components/schemas/Paginated'
+        - properties:
+            items:
+              type: array
+              maxItems: 3
+              items:
+                $ref: '#/components/schemas/CharacterSummary'
     Paginated:
       properties:
         pagination:
@@ -147,7 +107,7 @@ components:
               minimum: 0
               maximum: 50
     Errors:
-      description: Standard error schema
+      # TODO: Tell more about this schema
       required:
         - errors
       properties:
@@ -166,7 +126,7 @@ components:
                 type: string
               location:
                 type: string
-                description: JSON path to the error
+                # TODO: What is a location actually?
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
@@ -183,10 +143,13 @@ components:
           type: string
           minLength: 3
           maxLength: 36
+        sideKickId:
+          type: string      
     Character:
       allOf:
         - $ref: '#/components/schemas/CharacterSummary'
-        - properties:
+        - type: object
+          properties:
             birthDate:
               type: string
               format: date
@@ -194,22 +157,13 @@ components:
             age:
               type: integer
               minimum: 0
-              maximum: 0
+              maximum: 128
               readOnly: true
             side:
               type: string
               enum:
                 - hero
                 - villain
+                - neutral
             archEnemyId:
-              $ref: '#/components/schemas/CharacterId'
-    Characters:
-      allOf:
-        - $ref: '#/components/schemas/Paginated'
-        - properties:
-            items:
-              type: array
-              maxItems: 3
-              items:
-                $ref: '#/components/schemas/CharacterSummary'
-        
+              type: string

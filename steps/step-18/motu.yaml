@@ -1,61 +1,78 @@
-openapi: '3.0.0'
+openapi: "3.0.0"
 
 info:
   title: Masters of the Universe
-  version: '1.0'
+  version: "1.0"
   description: |
-    Description of the __overall__ API goes here
+    # Tools
 
-    # Some heading
+    ## OpenAPI Specification documentation:
+    - 🔗 OpenAPI Map: (https://openapi-map.apihandyman.io/)
+    - 🔗 OpenAPI Spec Github repo: (https://github.com/OAI/OpenAPI-Specification)
+    ## Tools (I use):
+    - 🔗 OpenAPI (42 Crunch) VS Code Extension (https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+    - 🔗 Stoplight Studio GUI (https://stoplight.io/studio/)
+    - 🔗 Stoplight Spectral linter (https://github.com/stoplightio/spectral)
+    - 🔗 Stoplight Prism Mock generator (https://github.com/stoplightio/prism/)
+    - 🔗 Redoc CLI (https://github.com/Redocly/redoc/blob/master/cli/README.md)
+    - 🔗 Swagger Editor (https://editor.swagger.io/)
 
-    ## Some sub heading
+    # API Doc
+    Everything about the Masters of the Universe characters and toys
 
-    [a link](https://apihandyman.io)
+    A longer multi-lines description!
 
-    ## An image from the web
-
-    ![an image](out/diagram/diagram.svg)
-
-    ## An embedded image
-
+    With _markdown_
+    
+    # Section
+    
+    ## Sub section
+    
+    # Images
+    
+    Regular image
+    ![](https://placekitten.com/640/360)
+    
+    Embedded base64 image
     <img alt="embedded image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAf0lEQVQ4T2NkoBAwUqifAacBCgYJ/9ENf3BhAYZ6DAFsGvEZhGIAMZphhsFcg9WA++fng9UpGibCLUcXwzAA2XZiDACZDDIE7gJSnI/sDdoYgMsLyGFC0AswQ5CjEK8BIIXo4YDNJURFIzHJG2s6wOYKbIYhJ2nq5wVinI+sBgCmW0wRGtgp8QAAAABJRU5ErkJggg==">
 
 tags:
   - name: Toys
-    description: Description of tag goes here
-  - name: Characters 
+    description: All about Masters of the Universe Franchise Toys
+  - name: Characters
+    description: All about Masters of the Universe Franchise Characters
 
 paths:
   /characters:
-    post:
-      tags:
-        - Characters
-      summary: Add a character
-      description: What does not fit in summary
-      requestBody:
-        $ref: '#/components/requestBodies/Character'
-      responses:
-        '201':
-          description: Character created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Character' 
     get:
       tags:
         - Characters
       summary: Search characters
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Characters'
+                $ref: '#/components/schemas/CharactersPaginated'
         '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /characters/{characterId}: # The character resource's path
+          $ref: '#/components/schemas/Errors'
+    post:
+      tags:
+        - Characters
+      summary: Add a character
+      description: This is where you provide information about what the operation does or how to works if actually needed
+      requestBody:
+        $ref: '#/components/requestBodies/Character'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+    
+  /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
@@ -63,23 +80,28 @@ paths:
         - Characters
       summary: Read a character
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+              examples:
+                Hero:
+                  $ref: '#/components/examples/Hero'
+                Villain:
+                  $ref: '#/components/examples/Villain'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     delete:
       tags:
         - Characters
       summary: Delete a character
       responses:
         '204':
-          description: No content
+          description: Character has been deleted
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     put:
       tags:
         - Characters
@@ -89,23 +111,6 @@ paths:
       responses:
         '204':
           description: No Content
-  /characters/{characterId}/enemies:
-    parameters:
-      - $ref: '#/components/parameters/CharacterId'
-    get:
-      tags:
-        - Characters
-      summary: Search character's enemies
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Characters'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-
   /characters/{characterId}/toys:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
@@ -126,6 +131,21 @@ paths:
           description: Found toys
 
 components:
+  examples:
+    Hero:
+      summary: A hero sample
+      value:
+        id: qssdqsd
+        name: He-Man
+        side: hero
+        archEnemyId: azeae
+    Villain:
+      summary: A villain sample
+      value:
+        id: azeae
+        name: Skeletor
+        side: villain
+        archEnemyId: qssdqsd
   requestBodies:
     Character:
       content:
@@ -134,9 +154,7 @@ components:
             $ref: '#/components/schemas/Character'
   responses:
     Unauthorized:
-      description: |
-        Missing or invalid credentials.
-        Did you forgot the Authorization header?
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -149,6 +167,15 @@ components:
       schema:
         $ref: '#/components/schemas/CharacterId'
   schemas:
+    CharactersPaginated:
+      allOf:
+        - $ref: '#/components/schemas/Paginated'
+        - properties:
+            items:
+              type: array
+              maxItems: 3
+              items:
+                $ref: '#/components/schemas/CharacterSummary'
     Paginated:
       properties:
         pagination:
@@ -164,7 +191,6 @@ components:
               minimum: 0
               maximum: 50
     Errors:
-      description: Standard error schema
       required:
         - errors
       properties:
@@ -183,7 +209,7 @@ components:
                 type: string
               location:
                 type: string
-                description: JSON path to the error
+                description: JSON path to the source of the error
     CharacterId:
       type: string
       pattern: ^[a-z]{3,}$
@@ -195,15 +221,24 @@ components:
         - name
       properties:
         id:
+          # description + $ref works only in 3.1
+          description: The character unique id
           $ref: '#/components/schemas/CharacterId'
         name:
           type: string
           minLength: 3
           maxLength: 36
+          example: Skeletor
+        sideKickId:
+          # How to add a description to a $ref before 3.1
+          allOf:
+            - description: The character unique id
+            - $ref: '#/components/schemas/CharacterId'      
     Character:
       allOf:
         - $ref: '#/components/schemas/CharacterSummary'
-        - properties:
+        - type: object
+          properties:
             birthDate:
               type: string
               format: date
@@ -211,27 +246,13 @@ components:
             age:
               type: integer
               minimum: 0
-              maximum: 0
+              maximum: 128
               readOnly: true
             side:
               type: string
               enum:
                 - hero
                 - villain
+                - neutral
             archEnemyId:
-              $ref: '#/components/schemas/CharacterId'
-              description: The arch enemy character id
-            sideKickId:
-              allOf:
-                - description: The sidekick character id
-                - $ref: '#/components/schemas/CharacterId'
-    Characters:
-      allOf:
-        - $ref: '#/components/schemas/Paginated'
-        - properties:
-            items:
-              type: array
-              maxItems: 3
-              items:
-                $ref: '#/components/schemas/CharacterSummary'
-        
+              type: string

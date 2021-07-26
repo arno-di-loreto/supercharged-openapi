@@ -12,6 +12,16 @@
         "problemMatcher": []
       },
       {
+        "label": "Previous step",
+        "type": "shell",
+        "command": "steps/previous.sh",
+        "presentation": {
+          "reveal": "never",
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
         "label": "Reload step",
         "type": "shell",
         "command": "steps/reload.sh",

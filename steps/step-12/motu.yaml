@@ -1,69 +1,45 @@
-openapi: 3.0.0
+openapi: "3.0.0"
+
 info:
   title: Masters of the Universe
-  version: '1.0'
+  version: "1.0"
+
 paths:
   /characters:
-    post:
-      summary: Add a character
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Character'
-      responses:
-        '201':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Character'
     get:
       summary: Search characters
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Characters'
+                $ref: '#/components/schemas/CharactersPaginated'
         '401':
-          $ref: '#/components/responses/Unauthorized'
-  '/characters/{characterId}':
+          $ref: '#/components/schemas/Errors'
+    # TODO: Add "Add character" operation
+  /characters/{characterId}:
     parameters:
       - $ref: '#/components/parameters/CharacterId'
     get:
       summary: Read a character
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
     delete:
       summary: Delete a character
       responses:
         '204':
-          description: No content
+          description: No Content
         '401':
-          $ref: '#/components/responses/Unauthorized'
-  '/characters/{characterId}/enemies':
-    parameters:
-      - $ref: '#/components/parameters/CharacterId'
-    get:
-      summary: Search character's enemies
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Characters'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/schemas/Errors'
+
 components:
   responses:
     Unauthorized:
@@ -80,6 +56,15 @@ components:
       schema:
         $ref: '#/components/schemas/CharacterId'
   schemas:
+    CharactersPaginated:
+      allOf:
+        - $ref: '#/components/schemas/Paginated'
+        - properties:
+            items:
+              type: array
+              maxItems: 3
+              items:
+                $ref: '#/components/schemas/CharacterSummary'
     Paginated:
       properties:
         pagination:
@@ -115,8 +100,7 @@ components:
                 type: string
     CharacterId:
       type: string
-      pattern: '^[a-z]{3,}$'
-      readOnly: true
+      pattern: ^[a-z]{3,}$
     CharacterSummary:
       type: object
       required:
@@ -129,32 +113,25 @@ components:
           type: string
           minLength: 3
           maxLength: 36
+        sideKickId:
+          type: string      
     Character:
       allOf:
         - $ref: '#/components/schemas/CharacterSummary'
-        - properties:
+        - type: object
+          properties:
             birthDate:
               type: string
               format: date
-              writeOnly: true
             age:
               type: integer
               minimum: 0
-              maximum: 0
-              readOnly: true
+              maximum: 128
             side:
               type: string
               enum:
                 - hero
                 - villain
+                - neutral
             archEnemyId:
-              $ref: '#/components/schemas/CharacterId'
-    Characters:
-      allOf:
-        - $ref: '#/components/schemas/Paginated'
-        - properties:
-            items:
-              type: array
-              maxItems: 3
-              items:
-                $ref: '#/components/schemas/CharacterSummary'
+              type: string
