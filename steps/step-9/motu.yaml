@@ -20,7 +20,7 @@ paths:
                   # TODO: Return a summarized Character with only id and name
                   $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
 
   /characters/{characterId}:
     parameters:
@@ -35,14 +35,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Character'
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
     delete:
       summary: Delete a character
       responses:
         '204':
           description: No Content
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
 
 components:
   responses:

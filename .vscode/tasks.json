@@ -1,46 +1,81 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Next step",
-        "type": "shell",
-        "command": "steps/next.sh",
-        "presentation": {
-          "reveal": "never",
-          "panel": "shared"
-        },
-        "problemMatcher": []
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Go to step",
+      "type": "shell",
+      "command": "steps/go.sh \"${input:step}\"",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
       },
-      {
-        "label": "Previous step",
-        "type": "shell",
-        "command": "steps/previous.sh",
-        "presentation": {
-          "reveal": "never",
-          "panel": "shared"
-        },
-        "problemMatcher": []
+      "problemMatcher": []
+    },
+    {
+      "label": "Next step",
+      "type": "shell",
+      "command": "steps/next.sh",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
       },
-      {
-        "label": "Reload step",
-        "type": "shell",
-        "command": "steps/reload.sh",
-        "presentation": {
-          "reveal": "never",
-          "panel": "shared"
-        },
-        "problemMatcher": []
+      "problemMatcher": []
+    },
+    {
+      "label": "Previous step",
+      "type": "shell",
+      "command": "steps/previous.sh",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
       },
-      {
-        "label": "Reset step",
-        "type": "shell",
-        "command": "steps/reset.sh",
-        "presentation": {
-          "reveal": "never",
-          "panel": "shared"
-        },
-        "problemMatcher": []
-      }
-    ]
-  }
-  
+      "problemMatcher": []
+    },
+    {
+      "label": "Reload step",
+      "type": "shell",
+      "command": "steps/reload.sh",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Reset step",
+      "type": "shell",
+      "command": "steps/reset.sh",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "step",
+      "description": "Choose a step",
+      "default": "posts",
+      "type": "pickString",
+      "options": [
+        "Introduction (0/15)",
+        "A basic OpenAPI File (1/15)",
+        "Rendering an OpenAPI file (2/15)",
+        "Mocking with an OpenAPI file (3/15)",
+        "More accurate data description (4/15)",
+        "Describe once: Avoid same schema inconsistencies (5/15)",
+        "Describe once: Avoid path parameter inconsistencies (6/15)",
+        "Describe once: Avoid parameter vs response inconsistencies (7/15)",
+        "Describe once: Avoid responses inconsistencies (8/15)",
+        "Describe once (EXPERT): Summary vs Complete (9/15)",
+        "Describe once (EXPERT): Read/Write with same schema (10/15)",
+        "Documentation beyond contract: Organize with tags (11/15)",
+        "Documentation beyond contract: Examples (12/15)",
+        "Documentation beyond contract: Advanced Descriptions (13/15)",
+        "Speed up writing with tools (14/15)",
+        "Wrap up (15/15)"
+      ]
+    }
+  ]
+}

@@ -56,7 +56,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CharactersPaginated'
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
     post:
       tags:
         - Characters
@@ -92,7 +92,7 @@ paths:
                 Villain:
                   $ref: '#/components/examples/Villain'
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
     delete:
       tags:
         - Characters
@@ -101,7 +101,7 @@ paths:
         '204':
           description: Character has been deleted
         '401':
-          $ref: '#/components/schemas/Errors'
+          $ref: '#/components/responses/Unauthorized'
     put:
       tags:
         - Characters

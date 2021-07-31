@@ -7,4 +7,8 @@ then
     rm $CURRENT_FILE
 fi
 
+rm $ROOT_DIR/*.html
+rm $ROOT_DIR/*.yaml
+rm $ROOT_DIR/*.css
+
 cp "$SCRIPT_DIR/reset"/* "$ROOT_DIR"
