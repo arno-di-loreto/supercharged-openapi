@@ -50,6 +50,16 @@
         "panel": "shared"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Clean before commit",
+      "type": "shell",
+      "command": "steps/clean.sh",
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared"
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": [

@@ -55,6 +55,7 @@ The `.vscode/tasks.json` file defines the following actions (all relying and she
 | Previous step | `steps/previous.sh` | Copy `steps/step-{current step - 1}` content to root level (does nothing if step doesn't exist)
 | Reload step   | `steps/reload.sh`   | Copy `steps/step-{current step}` content to root level (useful to check modifications done on current step)
 | Reset step    | `steps/reset.sh`    | Copy `steps/reset` content to root level (to restart from the beginning)
+| Clean before commit | `steps/clean.sh` | Remove `index.css`, `index.html`, `todo.html`, `motu.yaml` files from root folder
 
 The "current step" is tracked in the `steps/current.txt` file (it is created if it doesn't exist).
 
